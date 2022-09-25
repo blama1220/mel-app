@@ -1,5 +1,6 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
+import { HeaderTitle } from '@react-navigation/native'
+import { StyleSheet, Text, View, Image, TouchableOpacity, Button } from "react-native";
 import { Feather, Entypo, FontAwesome } from "@expo/vector-icons";
 import SearchScreen from "../screens/SearchScreen";
 import ListScreen from "../screens/ListScreen";
@@ -13,7 +14,7 @@ const Navigation = () => {
     <Tab.Navigator
       screenOptions={({ route }) => ({
         tabBarIcon: ({ focused }) => {
-          if (route.name == "Home") {
+          if (route.name == "Home") { 
             return (
               <Entypo name="home" color="black" style={styles.iconStyle} />
             );
@@ -28,7 +29,7 @@ const Navigation = () => {
         tabBarInactiveTintColor: "gray",
         tabBarActiveTintColor: "tomato",
         tabBarLabelPosition: "below-icon",
-        headerShown: false,
+        headerShown: true,
       })}
       sceneContainerStyle={{ marginLeft: 10, marginTop: 50, marginRight: 5 }}
     >
@@ -36,6 +37,17 @@ const Navigation = () => {
         name="Home"
         style={styles.iconNameStyle}
         component={ImageScreen}
+        options={{
+          header:({ navigation, route, options}) => {
+            return (
+              <View style={{marginHorizontal:15,flexDirection:"row", justifyContent:"space-between", alignItems:"center"}}>
+                <Image source={require("./../images/app-logo.png")} style={{height:35, width:70}}/>
+                <Text>ok</Text>
+                <Text>ok</Text>
+              </View>
+            )
+          }
+      }}
       />
       <Tab.Screen name="Search" component={SearchScreen} />
       <Tab.Screen name="List" component={ListScreen} />

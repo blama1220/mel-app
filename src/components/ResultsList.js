@@ -8,7 +8,8 @@ import {
 } from "react-native";
 import ResultsDetail from "./ResultsDetail";
 
-const ResultsList = ({ title, results }) => {
+
+const ResultsList = ({ title, results, isHorizontal = true, showTitle = true }) => {
   if (!results.length) {
     return null;
   }
@@ -16,9 +17,9 @@ const ResultsList = ({ title, results }) => {
   return (
     <View style={styles.container}>
     
-      <Text style={styles.titleStyle}>{title}</Text>
+      {(showTitle) && <Text style={styles.titleStyle}>{title}</Text>}
       <FlatList
-        horizontal
+        horizontal={isHorizontal} 
         showsHorizontalScrollIndicator={false}
         data={results}
         keyExtractor={(results) => results.id}
