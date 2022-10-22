@@ -4,18 +4,19 @@ import { Feather, FontAwesome } from "@expo/vector-icons";
 import * as Progress from "react-native-progress";
 
 const ResultsDetail = ({ result, isPortrait = false }) => {
+  console.log(result);
   return (
     <View style={isPortrait ? styles.portraitContainer : styles.container}>
       <Image
         style={isPortrait ? styles.portraitImage : styles.imageStyle}
-        source={{ uri: result.primaryImage.url }}
+        source={{ uri: result.img }}
       />
       <View style={isPortrait ? styles.portraitContentStyle : {}}>
         <Text style={{ ...styles.nameStyle, flexWrap: "wrap" }}>
-          {result.titleText.text}
+          {result.title}
         </Text>
         <Text>
-          {`${result.titleType.text}, ${result.releaseDate.month} / ${result.releaseDate.year}`}
+          {`${result.type}, ${result.date}`}
           </Text>
         <Progress.Bar
           progress={0.8}
