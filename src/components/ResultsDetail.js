@@ -4,7 +4,7 @@ import { Feather, FontAwesome } from "@expo/vector-icons";
 import * as Progress from "react-native-progress";
 
 const ResultsDetail = ({ result, isPortrait = false }) => {
-  console.log(result);
+  // console.log(result);
   return (
     <View style={isPortrait ? styles.portraitContainer : styles.container}>
       <Image
@@ -15,14 +15,16 @@ const ResultsDetail = ({ result, isPortrait = false }) => {
         <Text style={{ ...styles.nameStyle, flexWrap: "wrap" }}>
           {result.title}
         </Text>
-        <Text>
-          {`${result.type}, ${result.date}`}
-          </Text>
+        <Text>{`${result.type}, ${result.date}`}</Text>
         <Progress.Bar
           progress={0.8}
           width={null}
           color={"rgba(56, 25, 255, 0.8)"}
-          style={{ marginTop: "auto", marginBottom: "auto", display:isPortrait?"flex":"none" }}
+          style={{
+            marginTop: "auto",
+            marginBottom: "auto",
+            display: isPortrait ? "flex" : "none",
+          }}
         />
         <View
           style={{
@@ -35,7 +37,15 @@ const ResultsDetail = ({ result, isPortrait = false }) => {
           <Text>
             {result.rating} <FontAwesome name="star"></FontAwesome>
           </Text>
-          <Text style={{ marginStart: "auto", marginRight: 30, display:isPortrait?"flex":"none" }}>0/1</Text>
+          <Text
+            style={{
+              marginStart: "auto",
+              marginRight: 30,
+              display: isPortrait ? "flex" : "none",
+            }}
+          >
+            0/1
+          </Text>
         </View>
       </View>
       <View

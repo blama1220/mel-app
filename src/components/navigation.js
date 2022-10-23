@@ -1,10 +1,17 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { HeaderTitle } from '@react-navigation/native'
-import { StyleSheet, Text, View, Image, TouchableOpacity, Button } from "react-native";
+import { HeaderTitle } from "@react-navigation/native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  TouchableOpacity,
+  Button,
+} from "react-native";
 import { Feather, Entypo, FontAwesome } from "@expo/vector-icons";
 import SearchScreen from "../screens/SearchScreen";
 import ListScreen from "../screens/ListScreen";
-import ImageScreen from "../screens/ImageScreen";
+import HomeScreen from "../screens/HomeScreen";
 import ProfileScreen from "../screens/ProfileScreen";
 
 const Tab = createBottomTabNavigator();
@@ -14,7 +21,7 @@ const Navigation = () => {
     <Tab.Navigator
       screenOptions={({ route }) => ({
         tabBarIcon: ({ focused }) => {
-          if (route.name == "Home") { 
+          if (route.name == "Home") {
             return (
               <Entypo name="home" color="black" style={styles.iconStyle} />
             );
@@ -31,23 +38,33 @@ const Navigation = () => {
         tabBarLabelPosition: "below-icon",
         headerShown: true,
       })}
-      sceneContainerStyle={{ marginLeft: 10, marginTop: 50, marginRight: 5 }}
+      sceneContainerStyle={{ paddingLeft: 5, marginTop: 50, paddingRight: 5 }}
     >
       <Tab.Screen
         name="Home"
         style={styles.iconNameStyle}
-        component={ImageScreen}
+        component={HomeScreen}
         options={{
-          header:({ navigation, route, options}) => {
+          header: ({ navigation, route, options }) => {
             return (
-              <View style={{marginHorizontal:15,flexDirection:"row", justifyContent:"space-between", alignItems:"center"}}>
-                <Image source={require("./../images/app-logo.png")} style={{height:35, width:70}}/>
+              <View
+                style={{
+                  marginHorizontal: 15,
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                }}
+              >
+                <Image
+                  source={require("./../images/app-logo.png")}
+                  style={{ height: 35, width: 70 }}
+                />
                 <Text>ok</Text>
                 <Text>ok</Text>
               </View>
-            )
-          }
-      }}
+            );
+          },
+        }}
       />
       <Tab.Screen name="Search" component={SearchScreen} />
       <Tab.Screen name="List" component={ListScreen} />

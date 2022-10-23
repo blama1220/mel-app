@@ -26,7 +26,7 @@ const ListScreen = () => {
     try {
       const response = await fetch("http://localhost:5001/entertainment");
       const json = await response.json();
-      console.log(json);
+      // console.log(json);
       setData(json);
     } catch (error) {
       console.error(error);
@@ -53,11 +53,11 @@ const ListScreen = () => {
             >
               <Text
                 style={{
-                  ...styles.testStyle,
+                  ...styles.textStyle,
                   color: currentStatus == item.name ? "red" : "black",
                 }}
               >
-                {item.title}
+                {item.name}
               </Text>
             </TouchableOpacity>
           );
@@ -68,6 +68,7 @@ const ListScreen = () => {
           return (
             <React.Fragment key={item._id}>
               <ResultsDetail result={item} isPortrait={true}></ResultsDetail>
+              <View style={{marginBottom: 10}}/>
             </React.Fragment>
           );
         })}
@@ -77,7 +78,7 @@ const ListScreen = () => {
 };
 
 const styles = StyleSheet.create({
-  testStyle: {
+  textStyle: {
     marginBottom: 20,
     marginLeft: 10,
   },

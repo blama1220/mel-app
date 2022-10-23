@@ -8,21 +8,24 @@ import {
 } from "react-native";
 import ResultsDetail from "./ResultsDetail";
 
-
-const ResultsList = ({ title, results, isHorizontal = true, showTitle = true }) => {
+const ResultsList = ({
+  title,
+  results,
+  isHorizontal = true,
+  showTitle = true,
+}) => {
   if (!results.length) {
     return null;
   }
 
   return (
     <View style={styles.container}>
-    
-      {(showTitle) && <Text style={styles.titleStyle}>{title}</Text>}
+      {showTitle && <Text style={styles.titleStyle}>{title}</Text>}
       <FlatList
-        horizontal={isHorizontal} 
+        horizontal={isHorizontal}
         showsHorizontalScrollIndicator={false}
         data={results}
-        keyExtractor={(results) => results.id}
+        keyExtractor={(results) => results._id}
         renderItem={({ item }) => {
           return (
             <TouchableOpacity
