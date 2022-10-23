@@ -20,15 +20,11 @@ const ListScreen = () => {
   ];
 
   const [currentStatus, setCurrentStatus] = useState(status[0].name);
+  const [data, setData] = useState([]);
 
-  const [data, setData] = useState([]);;
-  console.log("out");
-
-  const getMovies = async () => {
-    console.log("in");
-
+  const getEntertainment = async () => {
     try {
-      const response = await fetch("http://localhost:5001/movie");
+      const response = await fetch("http://localhost:5001/entertainment");
       const json = await response.json();
       console.log(json);
       setData(json);
@@ -38,7 +34,7 @@ const ListScreen = () => {
   };
 
   useEffect(() => {
-    getMovies();
+    getEntertainment();
   }, [currentStatus]);
 
   return (
