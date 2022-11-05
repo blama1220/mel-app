@@ -21,15 +21,22 @@ const ListScreen = () => {
 
   const [currentStatus, setCurrentStatus] = useState(status[0].name);
   const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(false);
 
-  const getEntertainment = async () => {
+  const getEntertainment = async (startIndex = 0) => {
+    if(loading) {
+      return ;
+    }
+    setLoading(true)
     try {
-      const response = await fetch("http://localhost:5001/entertainment");
+      const response = await fetch(`http://localhost:5001/entertainment/?startIndex=${startIndex}`);
       const json = await response.json();
       // console.log(json);
-      setData(json);
+      setData([...data, ...json]);
     } catch (error) {
       console.error(error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -63,16 +70,22 @@ const ListScreen = () => {
           );
         }}
       />
-      <ScrollView>
-        {data.map((item) => {
-          return (
-            <React.Fragment key={item._id}>
-              <ResultsDetail result={item} isPortrait={true}></ResultsDetail>
-              <View style={{marginBottom: 10}}/>
-            </React.Fragment>
-          );
-        })}
-      </ScrollView>
+      <FlatList
+      showsVerticalScrollIndicator={true}
+      keyExtractor={(data) => data._id}
+      data={data}
+      onEndReached={() => {
+        getEntertainment(data.length);
+      }}
+      renderItem={({ item }) => {
+        return (
+          <React.Fragment key={item._id}>
+            <ResultsDetail result={item} isPortrait={true}></ResultsDetail>
+            <View style={{ marginBottom: 10 }} />
+          </React.Fragment>
+        );
+      }}
+      />
     </>
   );
 };

@@ -1,9 +1,10 @@
 import React from "react";
-import { View, Image, Text, StyleSheet } from "react-native";
+import { View, Image, Text, StyleSheet, Dimensions } from "react-native";
 import { Feather, FontAwesome } from "@expo/vector-icons";
 import * as Progress from "react-native-progress";
 
 const ResultsDetail = ({ result, isPortrait = false }) => {
+  let width = Dimensions.get("window").width;
   // console.log(result);
   return (
     <View style={isPortrait ? styles.portraitContainer : styles.container}>
@@ -12,7 +13,7 @@ const ResultsDetail = ({ result, isPortrait = false }) => {
         source={{ uri: result.img }}
       />
       <View style={isPortrait ? styles.portraitContentStyle : {}}>
-        <Text style={{ ...styles.nameStyle, flexWrap: "wrap" }}>
+        <Text style={{ ...styles.nameStyle, maxWidth: width - 210 }} numberOfLines={1}>
           {result.title}
         </Text>
         <Text>{`${result.type}, ${result.date}`}</Text>
