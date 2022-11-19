@@ -29,6 +29,7 @@ const ResultsList = ({
         renderItem={({ item }) => {
           return (
             <TouchableOpacity
+            style={{display: "flex"}}
             /*onPress={() =>
                 navigation.navigate("ResultsShow", { id: item.id })
               }*/

@@ -49,14 +49,16 @@ const Navigation = () => {
             return (
               <View
                 style={{
-                  marginHorizontal: 15,
+                  paddingHorizontal: 20,
+                  paddingVertical: 10,
                   flexDirection: "row",
                   justifyContent: "space-between",
                   alignItems: "center",
+                  backgroundColor: "rgba(0,0,0,0.1)"
                 }}
               >
                 <Image
-                  source={require("./../images/app-logo.png")}
+                  source={require("./../images/app-logo3.png")}
                   style={{ height: 35, width: 70 }}
                 />
                 <Text>ok</Text>

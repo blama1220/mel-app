@@ -67,6 +67,7 @@ const styles = StyleSheet.create({
   container: {
     marginLeft: 15,
     marginRight: 10,
+    alignSelf: "center",
   },
   portraitContainer: {
     display: "flex",
@@ -76,7 +77,7 @@ const styles = StyleSheet.create({
   },
   imageStyle: {
     width: 200,
-    height: 170,
+    height: 325,
     resizeMode: "contain",
 
     /*width: 200,
