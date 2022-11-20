@@ -14,18 +14,20 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true
     },
     "android": {
+      "package": "com.pucmm.mel",
+      "googleServicesFile": "./google-services.json",
+      "versionCode": 1,
       "adaptiveIcon": {
         "foregroundImage": "./assets/app-logo.png",
         "backgroundColor": "#FFFFFF"
       }
     },
+    "plugins": ["@react-native-firebase/app", "@react-native-firebase/auth"],
     "web": {
       "favicon": "./assets/app-logo.png"
     }
