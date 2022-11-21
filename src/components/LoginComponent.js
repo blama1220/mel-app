@@ -1,4 +1,4 @@
-import { View, TextInput, StyleSheet } from "react-native";
+import { View, TextInput, StyleSheet, TouchableOpacity, } from "react-native";
 import { useState } from "react";
 const LoginComponent = () => {
     const [email, setEmail] = useState("");

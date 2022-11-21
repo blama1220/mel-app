@@ -8,7 +8,8 @@ const HomeScreen = () => {
   const [recentlyAdded, setRecentlyAdded] = useState([]);
   const [byRating, setByRating] = useState([]);
   const [dominicanMovies, setDominicanMovies] = useState([]);
-  const getEntertainment = async () => {
+  const getEntertainment = async () => {3114
+    .0
     try {
       const response = await fetch("http://localhost:5001/entertainment");
       const json = await response.json();

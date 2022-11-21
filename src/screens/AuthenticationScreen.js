@@ -1,7 +1,7 @@
 import { useState } from "react";
 import LoginComponent from "../components/LoginComponent";
 import RegisterComponent from "../components/RegisterComponent";
-import { View, TouchableOpacity } from "react-native";
+import { View, TouchableOpacity, Text } from "react-native";
 
 const LOGIN_SCREEN = 0;
 const REGISTER_SCREEN = 1;
@@ -15,16 +15,16 @@ const AuthenticationScreen = () => {
       <View>
         {screen === LOGIN_SCREEN && (
           <TouchableOpacity
-            onClick={() => {
+            onPress={() => {
               setScreen(REGISTER_SCREEN);
             }}
           >
-            <Text>Registrate</Text>
+            {/* <Text>Registrate</Text> */}
           </TouchableOpacity>
         )}
         {screen === REGISTER_SCREEN && (
           <TouchableOpacity
-            onClick={() => {
+            onPress={() => {
               setScreen(LOGIN_SCREEN);
             }}
           >

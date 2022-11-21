@@ -31,7 +31,7 @@ const ListScreen = () => {
     try {
       const response = await fetch(`http://localhost:5001/entertainment/?startIndex=${startIndex}`);
       const json = await response.json();
-      console.log(json);
+      // console.log(json);
       setData([...data, ...json]);
     } catch (error) {
       console.error(error);
