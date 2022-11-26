@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import {
   StyleSheet,
   Text,
@@ -9,10 +9,14 @@ import {
   Button,
   TouchableOpacity,
 } from "react-native";
+import { UserContext } from "../context/UserContext";
+import { AsyncStorage } from "@react-native-async-storage/async-storage";
 
-export default function LoginComponent({toRegister}) {
+export default function LoginComponent({ toRegister }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  const { updateUser } = useContext(UserContext);
 
   return (
     <View style={styles.container}>
@@ -35,15 +39,33 @@ export default function LoginComponent({toRegister}) {
           placeholderTextColor="#003f5c"
           secureTextEntry={true}
           onChangeText={(password) => setPassword(password)}
-        >
-        </TextInput>
+        ></TextInput>
       </View>
 
       <TouchableOpacity onPress={toRegister}>
         <Text style={styles.forgot_button}>Create an account</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.loginBtn}>
+      <TouchableOpacity
+        style={styles.loginBtn}
+        onPress={async () => {
+          try {
+            const res = await fetch("http://192.168.86.105:5001/login", {
+              method: "POST",
+              body: JSON.stringify({ email, password }),
+              headers: {
+                Accept: "application/json, text/plain, */*",
+                "Content-Type": "application/json",
+              },
+            });
+            let v = await res.json();
+            updateUser(v.data);
+            await AsyncStorage.setItem("user", JSON.stringify(v.data));
+          } catch (e) {
+            console.error(e);
+          }
+        }}
+      >
         <Text style={styles.loginText}>LOGIN</Text>
       </TouchableOpacity>
     </View>
@@ -68,7 +90,6 @@ const styles = StyleSheet.create({
     width: "70%",
     height: 45,
     marginBottom: 20,
-
     alignItems: "center",
   },
 

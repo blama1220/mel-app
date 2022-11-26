@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
   Button,
 } from "react-native";
-import { useState } from "react";
+import { useContext } from "react";
 import { Feather, Entypo, FontAwesome } from "@expo/vector-icons";
 import SearchScreen from "../screens/SearchScreen";
 import ListScreen from "../screens/ListScreen";
@@ -16,20 +16,13 @@ import HomeScreen from "../screens/HomeScreen";
 import ProfileScreen from "../screens/ProfileScreen";
 import AuthenticationScreen from "../screens/AuthenticationScreen";
 //import auth from '@react-native-firebase/auth';
+import { UserContext } from "../context/UserContext";
 const Tab = createBottomTabNavigator();
 
 const Navigation = () => {
-  const [user, setUser] = useState();
 
-  // Handle user state changes
-  function onAuthStateChanged(user) {
-    setUser(user);
-  }
+  const {user} = useContext(UserContext);
 
-  /*useEffect(() => {
-    const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
-    return subscriber; // unsubscribe on unmount
-  }, []);*/
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({

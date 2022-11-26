@@ -9,21 +9,20 @@ const AuthenticationScreen = () => {
   const [screen, setScreen] = useState(LOGIN_SCREEN);
   return (
     <ScrollView>
-      {screen === LOGIN_SCREEN && <LoginComponent toRegister={() => {setScreen(REGISTER_SCREEN)}} />}
-      {screen === REGISTER_SCREEN && <RegisterComponent />}
-
-      <View>
-        {screen === REGISTER_SCREEN && (
-          <TouchableOpacity
-            onPress={() => {
-              setScreen(LOGIN_SCREEN);
-            }}
-          >
-            <Text>Tienes cuenta? Inicia Sesión</Text>
-            
-          </TouchableOpacity>
-        )}
-      </View>
+      {screen === LOGIN_SCREEN && (
+        <LoginComponent
+          toRegister={() => {
+            setScreen(REGISTER_SCREEN);
+          }}
+        />
+      )}
+      {screen === REGISTER_SCREEN && (
+        <RegisterComponent
+          toLogin={() => {
+            setScreen(LOGIN_SCREEN);
+          }}
+        />
+      )}
     </ScrollView>
   );
 };
