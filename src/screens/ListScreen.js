@@ -47,7 +47,7 @@ const ListScreen = () => {
           },});
       }
       const json = await response.json();
-      console.log(json);
+      //console.log(json);
       if(json.movieStates)
         setData(json.movieStates.map((movie) => movie.movie));
       if(json.states) {

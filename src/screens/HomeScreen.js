@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { View, Text, StyleSheet, ScrollView } from "react-native";
+import { UserContext } from "../context/UserContext";
 
 import ResultsList from "../components/ResultsList";
 
@@ -8,36 +9,40 @@ const HomeScreen = () => {
   const [recentlyAdded, setRecentlyAdded] = useState([]);
   const [byRating, setByRating] = useState([]);
   const [dominicanMovies, setDominicanMovies] = useState([]);
+  const [recomendations, setRecomendations] = useState([]);
+  const { user } = useContext(UserContext);
   const getEntertainment = async () => {
     const isMounted = true;
     try {
-      const response = await fetch("http://localhost:5001/entertainment");
+      const response = await fetch("http://localhost:5001/entertainment/billboard");
       const json = await response.json();
       // console.log(json);
-      if(isMounted)
-      setData(json);
+      if (isMounted) setData(json);
     } catch (error) {
       console.error(error);
     }
     return () => {
       isMounted = false;
-    }
+    };
   };
 
   const getRecentlyAddedEntertainment = async () => {
     try {
-      const response = await fetch("http://localhost:5001/entertainment/bydate");
+      const response = await fetch(
+        "http://localhost:5001/entertainment/bydate"
+      );
       const json = await response.json();
       // console.log(json);
       setRecentlyAdded(json);
     } catch (error) {
       console.error(error);
     }
-  }
-  ;
+  };
   const getByRating = async () => {
     try {
-      const response = await fetch("http://localhost:5001/entertainment/byrating");
+      const response = await fetch(
+        "http://localhost:5001/entertainment/byrating"
+      );
       const json = await response.json();
       // console.log(json);
       setByRating(json);
@@ -48,10 +53,38 @@ const HomeScreen = () => {
 
   const getDominicanMovies = async () => {
     try {
-      const response = await fetch("http://localhost:5001/entertainment/bygenre/Dominican");
+      const response = await fetch(
+        "http://localhost:5001/entertainment/bygenre/Dominican"
+      );
       const json = await response.json();
       // console.log(json);
       setDominicanMovies(json);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  const getRecomendedMovies = async () => {
+    try {
+      if (!user) {
+        return;
+      }
+      const response = await fetch(
+        `http://localhost:5001/recomendation`,
+        {
+          method:"Post", 
+          body: JSON.stringify({ userId: user._id }),
+          headers: {
+            Accept: "application/json, text/plain, */*",
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      const json = await response.json();
+      let obj = {};
+      for(let v of json) {
+        obj[v._id] = v;
+      }
+      setRecomendations(Object.values(obj));
     } catch (error) {
       console.error(error);
     }
@@ -62,15 +95,17 @@ const HomeScreen = () => {
     getRecentlyAddedEntertainment();
     getByRating();
     getDominicanMovies();
-  }, []);
+    getRecomendedMovies();
+  }, [user]);
 
   return (
     <>
       <ScrollView>
         <ResultsList results={byRating} title="Top" />
         <ResultsList results={data} title="BillBoard" />
-        <ResultsList results={recentlyAdded} title="Recently Added" />
         <ResultsList results={dominicanMovies} title="Dominican Republic" />
+        <ResultsList results={recomendations} title="Recomendations" />
+        <ResultsList results={recentlyAdded} title="Recently Added" />
       </ScrollView>
     </>
   );
