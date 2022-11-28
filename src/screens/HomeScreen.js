@@ -8,15 +8,19 @@ const HomeScreen = () => {
   const [recentlyAdded, setRecentlyAdded] = useState([]);
   const [byRating, setByRating] = useState([]);
   const [dominicanMovies, setDominicanMovies] = useState([]);
-  const getEntertainment = async () => {3114
-    .0
+  const getEntertainment = async () => {
+    const isMounted = true;
     try {
       const response = await fetch("http://localhost:5001/entertainment");
       const json = await response.json();
       // console.log(json);
+      if(isMounted)
       setData(json);
     } catch (error) {
       console.error(error);
+    }
+    return () => {
+      isMounted = false;
     }
   };
 

@@ -1,7 +1,11 @@
-import React from "react";
-import { StyleSheet, Text, View, Image } from "react-native";
+import React, { useContext } from "react";
+import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
+import { UserContext } from "../context/UserContext";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const ProfileScreen = () => {
+  const { user, updateUser } = useContext(UserContext);
+
   return (
     <>
       <View style={styles.container}>
@@ -14,9 +18,9 @@ const ProfileScreen = () => {
               }}
             />
 
-            <Text style={styles.name}>Brian López</Text>
-            <Text style={styles.userInfo}>brianlama@gmail.com</Text>
-            <Text style={styles.userInfo}>Rep. Dom.</Text>
+            <Text style={styles.name}>{user.name}</Text>
+            <Text style={styles.userInfo}>{user.email}</Text>
+            <Text style={styles.userInfo}>{user.location}</Text>
           </View>
         </View>
 
@@ -61,6 +65,12 @@ const ProfileScreen = () => {
             <View style={styles.infoContent}>
               <Text style={styles.info}>News</Text>
             </View>
+            <TouchableOpacity style={styles.infoContent} onPress={async() => {
+              await AsyncStorage.clear();
+              updateUser(null)
+            }}>
+              <Text style={styles.info}>Logout</Text>
+            </TouchableOpacity>
           </View>
         </View>
       </View>

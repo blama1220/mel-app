@@ -67,8 +67,8 @@ const Navigation = () => {
                   source={require("./../images/app-logo3.png")}
                   style={{ height: 35, width: 70 }}
                 />
-                <Text>ok</Text>
-                <Text>ok</Text>
+                <Text></Text>
+                <Text></Text>
               </View>
             );
           },

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import ResultsDetail from "../components/ResultsDetail";
 import {
   View,
@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   ScrollView,
 } from "react-native";
+import { UserContext } from "../context/UserContext";
 
 const ListScreen = () => {
   const status = [
@@ -22,17 +23,36 @@ const ListScreen = () => {
   const [currentStatus, setCurrentStatus] = useState(status[0].name);
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
+  const { user } = useContext(UserContext);
 
   const getEntertainment = async (startIndex = 0) => {
-    if(loading) {
-      return ;
+    if (loading) {
+      return;
     }
-    setLoading(true)
+    setLoading(true);
     try {
-      const response = await fetch(`http://localhost:5001/entertainment/?startIndex=${startIndex}`);
+      let response;
+      if(currentStatus === "All") {
+        response = await fetch(
+          `http://localhost:5001/getData/${user._id}`
+        ); 
+      } else {
+        response = await fetch(`http://localhost:5001/getData/${currentStatus.toLowerCase()}`, 
+        {
+          method:"Post", 
+          body: JSON.stringify({ userId: user._id }),
+          headers: {
+            Accept: "application/json, text/plain, */*",
+            "Content-Type": "application/json",
+          },});
+      }
       const json = await response.json();
-      // console.log(json);
-      setData([...data, ...json]);
+      console.log(json);
+      if(json.movieStates)
+        setData(json.movieStates.map((movie) => movie.movie));
+      if(json.states) {
+        setData(json.states.map((movie) => movie.movie));
+      }
     } catch (error) {
       console.error(error);
     } finally {
@@ -45,7 +65,7 @@ const ListScreen = () => {
   }, [currentStatus]);
 
   return (
-    <>
+    <View>
       <FlatList
         horizontal
         showsVerticalScrollIndicator={true}
@@ -54,7 +74,9 @@ const ListScreen = () => {
         renderItem={({ item }) => {
           return (
             <TouchableOpacity
+              key={item.name}
               onPress={() => {
+                setData([]);
                 setCurrentStatus(item.name);
               }}
             >
@@ -71,22 +93,23 @@ const ListScreen = () => {
         }}
       />
       <FlatList
-      showsVerticalScrollIndicator={true}
-      keyExtractor={(data) => data._id}
-      data={data}
-      onEndReached={() => {
-        getEntertainment(data.length);
-      }}
-      renderItem={({ item }) => {
-        return (
-          <React.Fragment key={item._id}>
-            <ResultsDetail result={item} isPortrait={true}></ResultsDetail>
-            <View style={{ marginBottom: 10 }} />
-          </React.Fragment>
-        );
-      }}
+        showsVerticalScrollIndicator={true}
+        keyExtractor={(data) => data._id}
+        data={data}
+        contentContainerStyle={{flexGrow: 1}}
+        onEndReached={() => {
+          getEntertainment(data.length);
+        }}
+        renderItem={({ item }) => {
+          return (
+            <React.Fragment key={item._id}>
+              <ResultsDetail result={item} isPortrait={true}></ResultsDetail>
+              <View style={{ marginBottom: 10 }} />
+            </React.Fragment>
+          );
+        }}
       />
-    </>
+    </View>
   );
 };
 

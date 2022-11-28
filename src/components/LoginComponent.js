@@ -10,7 +10,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { UserContext } from "../context/UserContext";
-import { AsyncStorage } from "@react-native-async-storage/async-storage";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function LoginComponent({ toRegister }) {
   const [email, setEmail] = useState("");
@@ -59,8 +59,12 @@ export default function LoginComponent({ toRegister }) {
               },
             });
             let v = await res.json();
-            updateUser(v.data);
-            await AsyncStorage.setItem("user", JSON.stringify(v.data));
+            console.log(v);
+            if(v.data) {
+              updateUser(v.data);
+              console.log(JSON.stringify(v.data));
+              await AsyncStorage.setItem('@user', JSON.stringify(v.data));
+            }
           } catch (e) {
             console.error(e);
           }
