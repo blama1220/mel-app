@@ -75,7 +75,7 @@ const Navigation = () => {
         }}
       />
       <Tab.Screen name="Search" component={SearchScreen} />
-      <Tab.Screen name="List" component={ListScreen} />
+      <Tab.Screen name="List" component={user?ListScreen:AuthenticationScreen} />
       <Tab.Screen name="Profile" component={user?ProfileScreen:AuthenticationScreen} />
     </Tab.Navigator>
   );

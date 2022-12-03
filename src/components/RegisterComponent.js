@@ -232,6 +232,7 @@ export default function RegisterComponent({ toLogin }) {
             });
             let v = await res.json();
             console.log(v);
+            toLogin();
           } catch (e) {
             console.error(e);
           }

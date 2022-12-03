@@ -1,16 +1,18 @@
 import React, { useState, useEffect, useContext } from "react";
 import { View, Text, StyleSheet, ScrollView } from "react-native";
 import { UserContext } from "../context/UserContext";
+import { useIsFocused } from '@react-navigation/native';
 
 import ResultsList from "../components/ResultsList";
 
-const HomeScreen = () => {
+const HomeScreen = ({ navigation }) => {
   const [data, setData] = useState([]);
   const [recentlyAdded, setRecentlyAdded] = useState([]);
   const [byRating, setByRating] = useState([]);
   const [dominicanMovies, setDominicanMovies] = useState([]);
   const [recomendations, setRecomendations] = useState([]);
   const { user } = useContext(UserContext);
+  const isFocused = useIsFocused();
   const getEntertainment = async () => {
     const isMounted = true;
     try {
@@ -66,6 +68,7 @@ const HomeScreen = () => {
   const getRecomendedMovies = async () => {
     try {
       if (!user) {
+        setRecomendations([]);
         return;
       }
       const response = await fetch(
@@ -82,7 +85,9 @@ const HomeScreen = () => {
       const json = await response.json();
       let obj = {};
       for(let v of json) {
-        obj[v._id] = v;
+        if(v){
+          obj[v._id] = v;
+        }
       }
       setRecomendations(Object.values(obj));
     } catch (error) {
@@ -91,12 +96,14 @@ const HomeScreen = () => {
   };
 
   useEffect(() => {
-    getEntertainment();
-    getRecentlyAddedEntertainment();
-    getByRating();
-    getDominicanMovies();
-    getRecomendedMovies();
-  }, [user]);
+    if(isFocused) {
+      getEntertainment();
+      getRecentlyAddedEntertainment();
+      getByRating();
+      getDominicanMovies();
+      getRecomendedMovies();
+    }
+  }, [user, isFocused]);
 
   return (
     <>

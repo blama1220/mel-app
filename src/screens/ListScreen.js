@@ -26,6 +26,10 @@ const ListScreen = () => {
   const { user } = useContext(UserContext);
 
   const getEntertainment = async (startIndex = 0) => {
+    if(!user) {
+      setData([]);
+      return;
+    }
     if (loading) {
       return;
     }
@@ -47,9 +51,9 @@ const ListScreen = () => {
           },});
       }
       const json = await response.json();
-      //console.log(json);
+      console.log(json);
       if(json.movieStates)
-        setData(json.movieStates.map((movie) => movie.movie));
+        setData(json.movieStates.map((movie) => movie.movie) );
       if(json.states) {
         setData(json.states.map((movie) => movie.movie));
       }
@@ -62,7 +66,7 @@ const ListScreen = () => {
 
   useEffect(() => {
     getEntertainment();
-  }, [currentStatus]);
+  }, [currentStatus, user]);
 
   return (
     <View>
