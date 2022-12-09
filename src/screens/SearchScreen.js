@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, ScrollView } from "react-native";
 
 import ResultsList from "../components/ResultsList";
 import SearchBar from "../components/SearchBar";
+const ENDPOINT = "https://lit-springs-45882.herokuapp.com/";
 
 const SearchScreen = () => {
   const [title, setTitle] = useState("");
@@ -17,7 +18,7 @@ const SearchScreen = () => {
   const searchEntertainment = async () => {
     try {
       const response = await fetch(
-        `http://localhost:5001/entertainment/search?title=${title}`
+        `${ENDPOINT}entertainment/search?title=${title}`
       );
       const json = await response.json();
       // console.log(json);

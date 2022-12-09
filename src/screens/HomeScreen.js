@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useContext } from "react";
 import { View, Text, StyleSheet, ScrollView } from "react-native";
 import { UserContext } from "../context/UserContext";
-import { useIsFocused } from '@react-navigation/native';
-
+import { useIsFocused } from "@react-navigation/native";
 import ResultsList from "../components/ResultsList";
+const ENDPOINT = "https://lit-springs-45882.herokuapp.com/";
 
 const HomeScreen = ({ navigation }) => {
   const [data, setData] = useState([]);
@@ -16,7 +16,7 @@ const HomeScreen = ({ navigation }) => {
   const getEntertainment = async () => {
     const isMounted = true;
     try {
-      const response = await fetch("http://localhost:5001/entertainment/billboard");
+      const response = await fetch(`${ENDPOINT}entertainment/billboard`);
       const json = await response.json();
       // console.log(json);
       if (isMounted) setData(json);
@@ -30,9 +30,7 @@ const HomeScreen = ({ navigation }) => {
 
   const getRecentlyAddedEntertainment = async () => {
     try {
-      const response = await fetch(
-        "http://localhost:5001/entertainment/bydate"
-      );
+      const response = await fetch(`${ENDPOINT}entertainment/bydate`);
       const json = await response.json();
       // console.log(json);
       setRecentlyAdded(json);
@@ -42,9 +40,7 @@ const HomeScreen = ({ navigation }) => {
   };
   const getByRating = async () => {
     try {
-      const response = await fetch(
-        "http://localhost:5001/entertainment/byrating"
-      );
+      const response = await fetch(`${ENDPOINT}entertainment/byrating`);
       const json = await response.json();
       // console.log(json);
       setByRating(json);
@@ -56,7 +52,7 @@ const HomeScreen = ({ navigation }) => {
   const getDominicanMovies = async () => {
     try {
       const response = await fetch(
-        "http://localhost:5001/entertainment/bygenre/Dominican"
+        `${ENDPOINT}entertainment/bygenre/Dominican`
       );
       const json = await response.json();
       // console.log(json);
@@ -71,21 +67,18 @@ const HomeScreen = ({ navigation }) => {
         setRecomendations([]);
         return;
       }
-      const response = await fetch(
-        `http://localhost:5001/recomendation`,
-        {
-          method:"Post", 
-          body: JSON.stringify({ userId: user._id }),
-          headers: {
-            Accept: "application/json, text/plain, */*",
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      const response = await fetch(`${ENDPOINT}recomendation`, {
+        method: "Post",
+        body: JSON.stringify({ userId: user._id }),
+        headers: {
+          Accept: "application/json, text/plain, */*",
+          "Content-Type": "application/json",
+        },
+      });
       const json = await response.json();
       let obj = {};
-      for(let v of json) {
-        if(v){
+      for (let v of json) {
+        if (v) {
           obj[v._id] = v;
         }
       }
@@ -96,7 +89,7 @@ const HomeScreen = ({ navigation }) => {
   };
 
   useEffect(() => {
-    if(isFocused) {
+    if (isFocused) {
       getEntertainment();
       getRecentlyAddedEntertainment();
       getByRating();

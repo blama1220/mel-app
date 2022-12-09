@@ -9,6 +9,7 @@ import {
   ScrollView,
 } from "react-native";
 import { UserContext } from "../context/UserContext";
+const ENDPOINT = "https://lit-springs-45882.herokuapp.com/";
 
 const ListScreen = () => {
   const status = [
@@ -26,7 +27,7 @@ const ListScreen = () => {
   const { user } = useContext(UserContext);
 
   const getEntertainment = async (startIndex = 0) => {
-    if(!user) {
+    if (!user) {
       setData([]);
       return;
     }
@@ -36,25 +37,26 @@ const ListScreen = () => {
     setLoading(true);
     try {
       let response;
-      if(currentStatus === "All") {
-        response = await fetch(
-          `http://localhost:5001/getData/${user._id}`
-        ); 
+      if (currentStatus === "All") {
+        response = await fetch(`${ENDPOINT}getData/${user._id}`);
       } else {
-        response = await fetch(`http://localhost:5001/getData/${currentStatus.toLowerCase()}`, 
-        {
-          method:"Post", 
-          body: JSON.stringify({ userId: user._id }),
-          headers: {
-            Accept: "application/json, text/plain, */*",
-            "Content-Type": "application/json",
-          },});
+        response = await fetch(
+          `${ENDPOINT}getData/${currentStatus.toLowerCase()}`,
+          {
+            method: "Post",
+            body: JSON.stringify({ userId: user._id }),
+            headers: {
+              Accept: "application/json, text/plain, */*",
+              "Content-Type": "application/json",
+            },
+          }
+        );
       }
       const json = await response.json();
       console.log(json);
-      if(json.movieStates)
-        setData(json.movieStates.map((movie) => movie.movie) );
-      if(json.states) {
+      if (json.movieStates)
+        setData(json.movieStates.map((movie) => movie.movie));
+      if (json.states) {
         setData(json.states.map((movie) => movie.movie));
       }
     } catch (error) {
@@ -100,7 +102,7 @@ const ListScreen = () => {
         showsVerticalScrollIndicator={true}
         keyExtractor={(data) => data._id}
         data={data}
-        contentContainerStyle={{flexGrow: 1}}
+        contentContainerStyle={{ flexGrow: 1 }}
         onEndReached={() => {
           getEntertainment(data.length);
         }}

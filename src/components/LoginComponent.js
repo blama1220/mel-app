@@ -11,6 +11,7 @@ import {
 } from "react-native";
 import { UserContext } from "../context/UserContext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+const ENDPOINT = "https://lit-springs-45882.herokuapp.com/";
 
 export default function LoginComponent({ toRegister }) {
   const [email, setEmail] = useState("");
@@ -50,7 +51,7 @@ export default function LoginComponent({ toRegister }) {
         style={styles.loginBtn}
         onPress={async () => {
           try {
-            const res = await fetch("http://192.168.86.105:5001/login", {
+            const res = await fetch(`${ENDPOINT}login`, {
               method: "POST",
               body: JSON.stringify({ email, password }),
               headers: {
@@ -60,10 +61,10 @@ export default function LoginComponent({ toRegister }) {
             });
             let v = await res.json();
             console.log(v);
-            if(v.data) {
+            if (v.data) {
               updateUser(v.data);
               console.log(JSON.stringify(v.data));
-              await AsyncStorage.setItem('@user', JSON.stringify(v.data));
+              await AsyncStorage.setItem("@user", JSON.stringify(v.data));
             }
           } catch (e) {
             console.error(e);
